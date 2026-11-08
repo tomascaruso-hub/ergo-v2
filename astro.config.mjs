@@ -26,7 +26,7 @@ export default defineConfig({
     ...(isAdmin ? [react(), keystatic()] : []),
   ],
   output: isAdmin ? 'server' : 'static',
-  adapter: isAdmin ? cloudflare() : undefined,
+  adapter: isAdmin ? cloudflare({ prerenderEnvironment: 'node' }) : undefined,
   ...(isAdmin
     ? {}
     : { site: 'https://tomascaruso-hub.github.io', base: '/ergo-v2' }),
