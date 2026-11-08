@@ -1,7 +1,5 @@
 name: Deploy to GitHub Pages
-uses: withastro/action@v6
-  with:
-node-version: 24
+
 on:
   push:
     branches: [ main ]
@@ -21,10 +19,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-        
+        uses: actions/checkout@v5
+
       - name: Install, build, and upload your site
-        uses: withastro/action@v3
+        uses: withastro/action@v6
+        with:
+          node-version: 24
         env:
           PUBLIC_KEYSTATIC_GITHUB_CLIENT_ID: ${{ secrets.PUBLIC_KEYSTATIC_GITHUB_CLIENT_ID }}
           KEYSTATIC_GITHUB_CLIENT_SECRET: ${{ secrets.KEYSTATIC_GITHUB_CLIENT_SECRET }}

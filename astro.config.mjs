@@ -25,6 +25,6 @@ export default defineConfig({
         ],
 		}),react() ,keystatic()],
 		output: 'static',
-		site: 'https://tomasccc.github.io',
+		site: 'https://tomascaruso-hub.github.io',
 		base: '/ergo-v2', // Si aplica para tu GitHub Pages
 });

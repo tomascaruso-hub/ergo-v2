@@ -4,7 +4,7 @@ export default config({
     storage: {
         kind: 'github',
         repo: {
-            owner: 'tomasccc', 
+            owner: 'tomascaruso-hub', 
             name: 'ergo-v2',  
         },
     },
