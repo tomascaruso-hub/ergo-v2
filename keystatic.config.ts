@@ -2,10 +2,11 @@ import { config, fields, collection } from '@keystatic/core';
 
 export default config({
     storage: {
-        kind: 'cloud',
-    },
-    cloud: {
-        project: 'ergo/ergo-v2'
+        kind: 'github',
+        repo: {
+            owner: 'tomasccc', // ← tu usuario de GitHub
+            name: 'ergo-v2',  // ← nombre del repositorio
+        },
     },
     collections: {
         docs: collection({
