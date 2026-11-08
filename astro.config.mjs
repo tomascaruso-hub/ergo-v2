@@ -2,25 +2,29 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
+import keystatic from '@keystatic/astro';
+import react from '@astrojs/react';
+
 // https://astro.build/config
 export default defineConfig({
-	integrations: [
-		starlight({
-			title: 'My Docs',
-			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
-			sidebar: [
-				{
-					label: 'Guides',
-					items: [
-						// Each item here is one entry in the navigation menu.
-						{ label: 'Example Guide', slug: 'guides/example' },
-					],
-				},
-				{
-					label: 'Reference',
-					items: [{ autogenerate: { directory: 'reference' } }],
-				},
-			],
-		}),
-	],
+    integrations: [starlight({
+        title: 'My Docs',
+        social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
+        sidebar: [
+            {
+                label: 'Oficial',
+                items: [
+                    // Each item here is one entry in the navigation menu.
+                    { label: 'Índice', slug: 'oficial/example' },
+                ],
+            },
+            {
+                label: 'Reference',
+                items: [{ autogenerate: { directory: 'reference' } }],
+            },
+        ],
+		}),react() ,keystatic()],
+		output: 'static',
+		site: 'https://tomasccc.github.io',
+		base: '/ergo-v2', // Si aplica para tu GitHub Pages
 });
