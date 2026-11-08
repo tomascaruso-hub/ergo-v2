@@ -23,5 +23,8 @@
   "engines": {
     "node": ">=22.22.0"
   },
-  "dev:admin": "DEPLOY_TARGET=admin astro dev"
+  "dev:admin": "DEPLOY_TARGET=admin astro dev",
+  "devDependencies": {
+    "@bruits/satteri-wasm32-wasi": "^0.11.7"
+  }
 }
