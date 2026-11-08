@@ -1,10 +1,10 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
-import cloudflare from '@astrojs/cloudflare';
 import keystatic from '@keystatic/astro';
 import react from '@astrojs/react';
 
+// para editar en local con `npm run dev:admin`
 const isAdmin = process.env.DEPLOY_TARGET === 'admin';
 
 export default defineConfig({
@@ -26,7 +26,6 @@ export default defineConfig({
     ...(isAdmin ? [react(), keystatic()] : []),
   ],
   output: isAdmin ? 'server' : 'static',
-  adapter: isAdmin ? cloudflare({ prerenderEnvironment: 'node' }) : undefined,
   ...(isAdmin
     ? {}
     : { site: 'https://tomascaruso-hub.github.io', base: '/ergo-v2' }),
