@@ -4,8 +4,8 @@ export default config({
     storage: {
         kind: 'github',
         repo: {
-            owner: 'tomasccc', // ← tu usuario de GitHub
-            name: 'ergo-v2',  // ← nombre del repositorio
+            owner: 'tomasccc', 
+            name: 'ergo-v2',  
         },
     },
     collections: {
