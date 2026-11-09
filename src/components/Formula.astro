@@ -1,0 +1,28 @@
+---
+import katex from 'katex';
+
+interface Props {
+  latex?: string;
+  formula?: string;
+  display?: boolean;
+}
+
+const { latex, formula, display = true } = Astro.props;
+const code = latex || formula || '';
+const html = katex.renderToString(code, {
+  displayMode: display,
+  throwOnError: false,
+});
+---
+
+<div class="katex-block-wrapper" set:html={html} />
+
+<style>
+  .katex-block-wrapper {
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    text-align: center;
+  }
+</style>
+

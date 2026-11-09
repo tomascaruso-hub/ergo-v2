@@ -1,0 +1,18 @@
+---
+import katex from 'katex';
+
+interface Props {
+  latex?: string;
+  formula?: string;
+}
+
+const { latex, formula } = Astro.props;
+const code = latex || formula || '';
+const html = katex.renderToString(code, {
+  displayMode: false,
+  throwOnError: false,
+});
+---
+
+<span class="katex-inline-wrapper" set:html={html} />
+
