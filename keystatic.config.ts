@@ -17,8 +17,9 @@ export default config({
             schema: {
                 title: fields.slug({ name: { label: 'Título' } }),
                 description: fields.text({ label: 'Descripción' }),
-                content: fields.markdoc({
+                content: fields.mdx({
                     label: 'Contenido',
+                    extension: 'md'
                 }),
             },
         }),

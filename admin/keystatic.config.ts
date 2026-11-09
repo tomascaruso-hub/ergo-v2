@@ -4,8 +4,8 @@ export default config({
     storage: {
         kind: 'github',
         repo: {
-            owner: 'tomascaruso-hub', 
-            name: 'ergo-v2',  
+            owner: 'tomascaruso-hub',
+            name: 'ergo-v2',
         },
     },
     collections: {
@@ -17,8 +17,9 @@ export default config({
             schema: {
                 title: fields.slug({ name: { label: 'Título' } }),
                 description: fields.text({ label: 'Descripción' }),
-                content: fields.markdoc({
+                content: fields.mdx({
                     label: 'Contenido',
+                    extension: 'md'
                 }),
             },
         }),
