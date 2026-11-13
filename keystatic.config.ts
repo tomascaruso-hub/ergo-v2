@@ -7,7 +7,8 @@
  * 4. Componentes visuales personalizados para escribir LaTeX con previsualización
  *    en vivo (`Formula` y `MathInline`).
  * 5. Inyección del sistema de tooltip flotante para previsualización con hover.
- */
+asd 
+*/
 
 import React from 'react';
 import katex from 'katex';
