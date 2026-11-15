@@ -1,0 +1,4 @@
+/keystatic.config.ts
+node_modules
+dist
+.wrangler

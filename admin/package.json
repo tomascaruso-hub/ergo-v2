@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "prebuild": "cp ../keystatic.config.ts ./keystatic.config.ts",
     "build": "astro build"
   },
   "dependencies": {

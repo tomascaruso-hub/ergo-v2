@@ -85,13 +85,9 @@ export const MathInline = inline({
 });
 
 export default config({
-  storage: {
-    kind: 'github',
-    repo: {
-      owner: 'tomascaruso-hub',
-      name: 'ergo-v2',
-    },
-  },
+  storage: import.meta.env.PROD
+  ? { kind: 'github', repo: { owner: 'tomascaruso-hub', name: 'ergo-v2' } }
+  : { kind: 'local' },
   collections: {
     docs: collection({
       label: 'Documentación Starlight',
