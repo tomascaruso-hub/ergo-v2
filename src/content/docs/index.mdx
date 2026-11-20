@@ -1,35 +1,44 @@
 ---
 title: Bienvenido a los apuntes de FAMAF
-description: Get started building your docs site with Starlight.
+description: Documentación colaborativa de apuntes de clase con soporte de fórmulas matemáticas en tiempo real.
 hero:
-  tagline: Desarrollado por tomasccc
+  tagline: Apuntes colaborativos con soporte LaTeX instantáneo - Desarrollado por tomasccc
   image:
     file: ../../assets/houston.webp
   actions:
-    - text: Ver primer nota
-      link: /oficial/example/
-      icon: right-arrow
+  - text: Subí tus apuntes
+    link: https://ergo-v2.tomycaruso.workers.dev/keystatic
+    icon: pencil
+    variant: primary
+  - text: Ver notas
+    link: /oficial/example/
+    icon: right-arrow
+    variant: secondary
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
+import MathPlayground from '../../components/MathPlayground.astro';
 
-## Next steps
+## Prueba el editor en tiempo real
+
+Escribe abajo cualquier fórmula entre `$` o `$$` para ver cómo se renderiza en tiempo real, sin necesidad de iniciar sesión:
+
+<MathPlayground />
+
+Podés usar el [Panel de colaboradores](https://ergo-v2.tomycaruso.workers.dev/keystatic) para subir tus apuntes en formato `.mdx` y que se vean reflejados automáticamente en este sitio.
+## Colaboración y Contenido
 
 <CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
+	<Card title="Edición con Keystatic" icon="pencil">
+		Crea y edita notas en formato `.mdx` con previsualización matemática en tiempo real desde el [Panel de colaboradores](https://ergo-v2.tomycaruso.workers.dev/keystatic).
 	</Card>
-	<Card title="Change page layout" icon="document">
-		Delete `template: splash` in `src/content/docs/index.mdx` to display a
-		sidebar on this page.
+	<Card title="Fórmulas LaTeX Nativas" icon="open-book">
+		Soporte completo para expresiones en línea con `$formula$` y bloques matemáticos con `$$formula$$`.
 	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
+	<Card title="Despliegue Continuo" icon="rocket">
+		Cada cambio guardado en el panel genera un commit en GitHub que actualiza automáticamente este sitio.
 	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
-	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
+	<Card title="Apuntes de Clase" icon="document">
+		Consulta las notas oficiales organizadas en la barra lateral.
 	</Card>
 </CardGrid>
