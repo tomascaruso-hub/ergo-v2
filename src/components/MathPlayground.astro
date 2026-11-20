@@ -1,0 +1,241 @@
+---
+const shortcuts = [
+  { label: '∫ Gaussiana', latex: '\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}' },
+  { label: 'E=mc²', latex: 'E = mc^2' },
+  { label: '∑ Euler', latex: '\\sum_{n=1}^{\\infty} \\frac{1}{n^2} = \\frac{\\pi^2}{6}' },
+  { label: 'Matriz', latex: '\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}' },
+];
+
+const defaultContent = `La integral de Gauss en bloque:
+$$\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}$$
+
+Así se ven tus contribuciones subidas a la página.`;
+---
+
+<div class="math-playground-container not-content">
+  <div class="playground-header">
+    <div class="header-left">
+      <span class="header-title">Demo interactiva</span>
+    </div>
+    <div class="quick-tags">
+      {
+        shortcuts.map((s) => (
+          <button type="button" class="tag-btn" data-latex={s.latex}>
+            {s.label}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="playground-body">
+    <div class="panel-box editor-panel">
+      <div class="panel-label">Escribe texto y LaTeX</div>
+      <textarea id="playground-input" rows="7" spellcheck="false">{defaultContent}</textarea>
+    </div>
+
+    <div class="panel-box preview-panel">
+      <div class="panel-label">Resultado en página</div>
+      <div id="playground-output" class="preview-content"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import katex from 'katex';
+
+  function renderMath(text: string): string {
+    if (!text.trim()) {
+      return '<span style="color: #64748b; font-style: italic;">Escribe algo en el editor para previsualizarlo...</span>';
+    }
+
+    // reemplazar los dólares escapados temporalmente para evitar conflictos
+    const ESCAPED = '___ESCAPED_DOLLAR___';
+    let safe = text.replace(/\\\$/g, ESCAPED);
+
+    //  $$ ... $$
+    safe = safe.replace(/\$\$([\s\S]+?)\$\$/g, (_, latex) => {
+      try {
+        const html = katex.renderToString(latex.trim(), { displayMode: true, throwOnError: false });
+        return `<div class="katex-block-preview" style="text-align: center; margin: 0.8rem 0; overflow-x: auto;">${html}</div>`;
+      } catch {
+        return `<div style="color: #ef4444; font-family: monospace;">[Error en fórmula]</div>`;
+      }
+    });
+
+    //  $ ... $
+    safe = safe.replace(/\$([^\$\n]+?)\$/g, (_, latex) => {
+      try {
+        const html = katex.renderToString(latex.trim(), { displayMode: false, throwOnError: false });
+        return `<span class="katex-inline-preview" style="padding: 0 0.15rem;">${html}</span>`;
+      } catch {
+        return `<span style="color: #ef4444; font-family: monospace;">[Error]</span>`;
+      }
+    });
+
+    // Reemplazar los dólares escapados de nuevo (busca el marcador temporal)
+    safe = safe.replace(new RegExp(ESCAPED, 'g'), '$');
+
+    // Reemplazar saltos de línea por <br> y doble salto de línea por un espacio vertical
+    return safe.replace(/\n\n/g, '<div style="height: 0.75rem;"></div>').replace(/\n/g, '<br>');
+  }
+
+  function initPlayground() {
+    const input = document.getElementById('playground-input') as HTMLTextAreaElement | null;
+    const output = document.getElementById('playground-output');
+
+    if (input && output) {
+      const update = () => {
+        output.innerHTML = renderMath(input.value);
+      };
+
+      input.addEventListener('input', update);
+      update();
+
+      // Atajos de botones de inserción rápida
+      document.querySelectorAll('.tag-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const latex = btn.getAttribute('data-latex') || '';
+          const isBlock = latex.includes('\\\\') || latex.includes('\\int') || latex.includes('\\sum') || latex.includes('\\begin');
+          const insertion = isBlock ? `\n\n$$${latex}$$\n\n` : ` $${latex}$ `;
+          const start = input.selectionStart;
+          const end = input.selectionEnd;
+          input.value = input.value.substring(0, start) + insertion + input.value.substring(end);
+          input.focus();
+          update();
+        });
+      });
+    }
+  }
+
+  initPlayground();
+  document.addEventListener('astro:page-load', initPlayground);
+</script>
+
+<style>
+  .math-playground-container {
+    margin: 2rem 0;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 12px;
+    background: var(--sl-color-gray-6);
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  }
+
+  .playground-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--sl-color-gray-7);
+    border-bottom: 1px solid var(--sl-color-gray-5);
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .badge {
+    background: var(--sl-color-accent-low);
+    color: var(--sl-color-accent-high);
+    border: 1px solid var(--sl-color-accent);
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+
+  .header-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--sl-color-white);
+  }
+
+  .quick-tags {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .tag-btn {
+    background: var(--sl-color-gray-5);
+    color: var(--sl-color-white);
+    border: 1px solid var(--sl-color-gray-4);
+    border-radius: 6px;
+    padding: 0.25rem 0.65rem;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .tag-btn:hover {
+    background: var(--sl-color-accent);
+    border-color: var(--sl-color-accent);
+    color: white;
+  }
+
+  .playground-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 250px;
+  }
+
+  @media (max-width: 768px) {
+    .playground-body {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .panel-box {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .editor-panel {
+    border-right: 1px solid var(--sl-color-gray-5);
+  }
+
+  @media (max-width: 768px) {
+    .editor-panel {
+      border-right: none;
+      border-bottom: 1px solid var(--sl-color-gray-5);
+    }
+  }
+
+  .panel-label {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--sl-color-gray-3);
+    background: rgba(0, 0, 0, 0.15);
+    border-bottom: 1px solid var(--sl-color-gray-5);
+  }
+
+  #playground-input {
+    flex: 1;
+    width: 100%;
+    padding: 0.85rem 1rem;
+    background: transparent;
+    color: var(--sl-color-white);
+    border: none;
+    resize: none;
+    font-family: var(--sl-font-mono);
+    font-size: 0.88rem;
+    line-height: 1.5;
+    outline: none;
+  }
+
+  .preview-content {
+    flex: 1;
+    padding: 0.85rem 1rem;
+    overflow-y: auto;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    background: rgba(255, 255, 255, 0.02);
+  }
+</style>
